@@ -1,0 +1,23 @@
+{% load django_bootstrap5 %}
+
+
+<div class="container">
+    <div class="d-flex justify-content-center mt-4">
+        <div class="col-sm-4 ">
+            <div class="card">
+                <div class="card-header">
+                    {{ form_name }}
+                </div>
+                <div class="card-body">
+                    {% if form %}
+                        <form action="" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {% bootstrap_form form %}
+                            <input class="btn btn-outline-success float-end" type="submit" value="{{ form_name }}">
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
