@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+    {% url 'board:question_create' question_id as question_create_url %}
+    {% include 'board/snippets/base_form.html' with link=question_create_url form_title='질문 등록'%}
+{#    <div class="container">#}
+{#        <div class="d-flex justify-content-center">#}
+{#            <div class="col-sm-8">#}
+{#                <form action="{% url 'board:question_create' %}" method="POST">#}
+{#                    {% csrf_token %}#}
+{#                    <div>#}
+{#                        <h3><span class="badge bg-info"> Q </span></h3>#}
+{#                        <h4><label for="subject">제목</label></h4>#}
+{#                    </div>#}
+{#                    {% bootstrap_form form %}#}
+{#                    <input class="btn btn-outline-primary mt-4 float-end" type="submit" value="질문 등록"/>#}
+{#                </form>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{% endblock %}

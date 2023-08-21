@@ -27,7 +27,29 @@ def question_create(request):
             return redirect('board:index')
     else:
         form = QuestionForm()
-    return render(request, 'board/question_form.html', {'form': form})
+    return render(request, 'board/question_create.html', {'form': form})
+
+
+@login_required
+def question_delete(request, question_id):
+    if request.method == 'POST':
+        question = get_object_or_404(Question, pk=question_id)
+        question.delete()
+        messages.success(request, '질문을 삭제하였습니다.')
+    return redirect('board:index')
+
+
+@login_required
+def question_update(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
+    if request.method == 'POST':
+        form = QuestionForm(request.POST, instance=question)
+        form.save()
+        messages.success(request, '질문을 수정하였습니다.')
+        return redirect('board:question_detail', question_id=question_id)
+    else:
+        form = QuestionForm(instance=question)
+    return render(request, 'board/question_update.html', {'form': form})
 
 
 @login_required
@@ -45,6 +67,7 @@ def answer_delete(request, question_id, answer_id):
     if request.method == 'POST':
         answer = get_object_or_404(Answer, pk=answer_id)
         answer.delete()
+        messages.success(request, '답변을 삭제하였습니다.')
     return redirect('board:question_detail', question_id=question_id)
 
 

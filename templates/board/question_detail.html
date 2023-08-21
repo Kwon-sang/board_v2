@@ -5,9 +5,16 @@
         <div class="d-flex justify-content-center">
             <div class="col-sm-8">
                 <!-- Question Title -->
-                <div>
+                <div class="mb-3">
                     <h3><span class="badge bg-info"> Q </span></h3>
                     <h3>{{ question.subject }}</h3>
+                    <div class="float-end">
+                        {% if request.user.is_authenticated %}
+                            <a class="btn btn-outline-success btn-sm" href="{% url 'board:question_update' question.id %}" role="button">수정</a>
+                            {% url 'board:question_delete' question.id as question_delete_url %}
+                            {% include 'board/snippets/delete_modal.html' with link=question_delete_url %}
+                        {% endif %}
+                    </div>
                 </div>
                 <!-- Question Contents -->
                 <div>
@@ -28,12 +35,11 @@
                 {% for answer in question.answer_set.all %}
                     <div class="mt-3 mb-2">
                         <span class="badge bg-secondary">{{ answer.author }}</span>
-                        <span>{{ question.created_at }}</span>
                         <div class="float-end">
                             {% if request.user.is_authenticated %}
                                 <a class="btn btn-outline-success btn-sm" href="#" role="button">수정</a>
                                 {% url 'board:answer_delete' question.id answer.id as answer_delete_url %}
-                                {% include 'base_delete_model.html' with link=answer_delete_url %}
+                                {% include 'board/snippets/delete_modal.html' with link=answer_delete_url %}
                             {% endif %}
                         </div>
                     </div>

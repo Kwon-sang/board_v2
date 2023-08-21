@@ -1,0 +1,17 @@
+{% load django_bootstrap5 %}
+
+
+    <div class="container">
+        <div class="d-flex justify-content-center">
+            <div class="col-sm-8">
+                <form action="{{ link }}" method="POST">
+                    {% csrf_token %}
+                    <div>
+                        <h4><label for="subject">{{ form_title }}</label></h4>
+                    </div>
+                    {% bootstrap_form form %}
+                    <input class="btn btn-outline-primary mt-4 float-end" type="submit" value="{{ form_title }}"/>
+                </form>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,6 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    {% url 'board:question_update' question_id as question_update_url %}
+    {% include 'board/snippets/base_form.html' with link=question_update_url form_title='질문 수정' %}
+{% endblock %}
