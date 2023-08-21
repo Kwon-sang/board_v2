@@ -12,7 +12,7 @@
                         {% if request.user.is_authenticated %}
                             <a class="btn btn-outline-success btn-sm" href="{% url 'board:question_update' question.id %}" role="button">수정</a>
                             {% url 'board:question_delete' question.id as question_delete_url %}
-                            {% include 'board/snippets/delete_modal.html' with link=question_delete_url %}
+                            {% include 'board/snippets/delete_modal.html' with link=question_delete_url modal_name='question_delete'%}
                         {% endif %}
                     </div>
                 </div>
@@ -37,9 +37,9 @@
                         <span class="badge bg-secondary">{{ answer.author }}</span>
                         <div class="float-end">
                             {% if request.user.is_authenticated %}
-                                <a class="btn btn-outline-success btn-sm" href="#" role="button">수정</a>
-                                {% url 'board:answer_delete' question.id answer.id as answer_delete_url %}
-                                {% include 'board/snippets/delete_modal.html' with link=answer_delete_url %}
+                                <a class="btn btn-outline-success btn-sm" href="{% url 'board:answer_update' answer.id %}" role="button">수정</a>
+                                {% url 'board:answer_delete' answer.id as answer_delete_url %}
+                                {% include 'board/snippets/delete_modal.html' with link=answer_delete_url modal_name='answer_delete' %}
                             {% endif %}
                         </div>
                     </div>

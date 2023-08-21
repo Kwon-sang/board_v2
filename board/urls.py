@@ -11,5 +11,6 @@ urlpatterns = [
     path('question/<int:question_id>/update/', views.question_update, name='question_update'),
 
     path('question/<int:question_id>/answer/', views.answer_create, name='answer_create'),
-    path('question/<int:question_id>/answer/<int:answer_id>/', views.answer_delete, name='answer_delete'),
+    path('answer/<int:answer_id>/delete', views.answer_delete, name='answer_delete'),
+    path('answer/<int:answer_id>/update', views.answer_update, name='answer_update'),
 ]

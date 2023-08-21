@@ -24,7 +24,7 @@
         <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
             <div class="container">
             {% if user.is_authenticated %}
-                <span>Login user : {{ user.username }}</span>
+                <span>LOGIN USER : <strong>{{ user.username }}</strong></span>
                 <a href="{% url 'accounts:logout' %}" class="btn btn-outline-secondary" role="button">Logout</a>
             {% else %}
                 <a href="{% url 'accounts:signup' %}" class="btn btn-outline-secondary" role="button">Signup</a>

@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DeleteView
 from .models import Question, Answer
-from .forms import QuestionForm
+from .forms import QuestionForm, AnswerForm
 
 
 question_list = ListView.as_view(model=Question, ordering=['-created_at'])
@@ -63,11 +63,25 @@ def answer_create(request, question_id):
 
 
 @login_required
-def answer_delete(request, question_id, answer_id):
+def answer_delete(request, answer_id):
+    answer = get_object_or_404(Answer, pk=answer_id)
+    question_id = answer.question_id
     if request.method == 'POST':
-        answer = get_object_or_404(Answer, pk=answer_id)
         answer.delete()
         messages.success(request, '답변을 삭제하였습니다.')
     return redirect('board:question_detail', question_id=question_id)
 
+
+@login_required
+def answer_update(request, answer_id):
+    answer = get_object_or_404(Answer, pk=answer_id)
+    question_id = answer.question_id
+    if request.method == 'POST':
+        form = AnswerForm(request.POST, instance=answer)
+        form.save()
+        messages.success(request, '답변을 수정하였습니다.')
+        return redirect('board:question_detail', question_id=question_id)
+    else:
+        form = AnswerForm(instance=answer)
+    return render(request, 'board/answer_update.html', {'form': form})
 
