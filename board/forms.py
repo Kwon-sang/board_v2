@@ -3,8 +3,9 @@ from .models import Question, Answer
 
 
 class QuestionForm(forms.ModelForm):
-    model = Question
-    fields = ['subject', 'contents']
+    class Meta:
+        model = Question
+        fields = ['subject', 'contents']
 
 
 class AnswerForm(forms.ModelForm):
