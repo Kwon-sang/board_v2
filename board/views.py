@@ -1,7 +1,8 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import ListView, DetailView, CreateView
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DeleteView
 from .models import Question, Answer
 from .forms import QuestionForm
 
@@ -36,6 +37,14 @@ def answer_create(request, question_id):
         answer = Answer(question=question, author=request.user, contents=request.POST['contents'])
         answer.save()
         messages.success(request, '답변을 등록하였습니다.')
+    return redirect('board:question_detail', question_id=question_id)
+
+
+@login_required
+def answer_delete(request, question_id, answer_id):
+    if request.method == 'POST':
+        answer = get_object_or_404(Answer, pk=answer_id)
+        answer.delete()
     return redirect('board:question_detail', question_id=question_id)
 
 
