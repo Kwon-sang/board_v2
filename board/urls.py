@@ -1,16 +1,21 @@
 from django.urls import path
-from . import views
+from django.views.generic import ListView
+
+from .views import question_views, answer_views
+from .models import Question
+
 
 app_name = 'board'
 
 urlpatterns = [
-    path('', views.question_list, name='index'),
-    path('question/', views.question_create, name='question_create'),
-    path('question/<int:question_id>/', views.question_detail, name='question_detail'),
-    path('question/<int:question_id>/delete/', views.question_delete, name='question_delete'),
-    path('question/<int:question_id>/update/', views.question_update, name='question_update'),
+    path('', ListView.as_view(model=Question, ordering=['-created_at']), name='index'),
 
-    path('question/<int:question_id>/answer/', views.answer_create, name='answer_create'),
-    path('answer/<int:answer_id>/delete', views.answer_delete, name='answer_delete'),
-    path('answer/<int:answer_id>/update', views.answer_update, name='answer_update'),
+    path('question/', question_views.question_create, name='question_create'),
+    path('question/<int:question_id>/', question_views.question_detail, name='question_detail'),
+    path('question/<int:question_id>/delete/', question_views.question_delete, name='question_delete'),
+    path('question/<int:question_id>/update/', question_views.question_update, name='question_update'),
+
+    path('question/<int:question_id>/answer/', answer_views.answer_create, name='answer_create'),
+    path('answer/<int:answer_id>/delete', answer_views.answer_delete, name='answer_delete'),
+    path('answer/<int:answer_id>/update', answer_views.answer_update, name='answer_update'),
 ]

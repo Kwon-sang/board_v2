@@ -20,7 +20,8 @@
                         <tr>
                             <th scope="row">{{ question.id }}</th>
                             <td>
-                                <a href="{% url 'board:question_detail' question.id %}">{{ question.subject }}</a>
+                                <a href="{% url 'board:question_detail' question.id %}" style="text-decoration: none;">{{ question.subject }}</a>
+                                <span class="badge rounded-pill text-bg-light">{{ question.answer_set.count }}</span>
                             </td>
                             <td>{{ question.author }}</td>
                             <td>{{ question.created_at }}</td>
