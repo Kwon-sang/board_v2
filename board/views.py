@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse_lazy
 from django.views.generic import ListView, DeleteView
 from .models import Question, Answer
 from .forms import QuestionForm, AnswerForm
@@ -32,8 +32,11 @@ def question_create(request):
 
 @login_required
 def question_delete(request, question_id):
+    question = get_object_or_404(Question, pk=question_id)
     if request.method == 'POST':
-        question = get_object_or_404(Question, pk=question_id)
+        if request.user != question.author:
+            messages.error(request, '현재 게시물에 대한 삭제 권한이 없습니다.')
+            return redirect('board:question_detail', question_id=question_id)
         question.delete()
         messages.success(request, '질문을 삭제하였습니다.')
     return redirect('board:index')
@@ -43,6 +46,9 @@ def question_delete(request, question_id):
 def question_update(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     if request.method == 'POST':
+        if request.user != question.author:
+            messages.error(request, '현재 게시물에 대한 수정 권한이 없습니다.')
+            return redirect('board:question_detail', question_id=question_id)
         form = QuestionForm(request.POST, instance=question)
         form.save()
         messages.success(request, '질문을 수정하였습니다.')
@@ -67,6 +73,9 @@ def answer_delete(request, answer_id):
     answer = get_object_or_404(Answer, pk=answer_id)
     question_id = answer.question_id
     if request.method == 'POST':
+        if request.user != answer.author:
+            messages.error(request, '현재 게시물에 대한 삭제 권한이 없습니다.')
+            return redirect('board:question_detail', question_id=question_id)
         answer.delete()
         messages.success(request, '답변을 삭제하였습니다.')
     return redirect('board:question_detail', question_id=question_id)
@@ -77,6 +86,9 @@ def answer_update(request, answer_id):
     answer = get_object_or_404(Answer, pk=answer_id)
     question_id = answer.question_id
     if request.method == 'POST':
+        if request.user != answer.author:
+            messages.error(request, '현재 게시물에 대한 수정 권한이 없습니다.')
+            return redirect('board:question_detail', question_id=question_id)
         form = AnswerForm(request.POST, instance=answer)
         form.save()
         messages.success(request, '답변을 수정하였습니다.')

@@ -9,6 +9,17 @@
     <title>Site-Kwon</title>
 </head>
 <body>
+<!-- Message Displaying Area -->
+{% if messages %}
+    {% for message in  messages %}
+        {% if message.tags == 'error' %}
+            <div class="alert alert-danger">{{ message }}</div>
+        {% else %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endif %}
+    {% endfor %}
+{% endif %}
+
 <!-- Navigation Bar -->
 <div class="container">
     <div class="d-flex flex-column flex-md-row align-items-center pb-3 mt-4 mb-4 border-bottom">
