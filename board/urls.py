@@ -8,7 +8,7 @@ from .models import Question
 app_name = 'board'
 
 urlpatterns = [
-    path('', ListView.as_view(model=Question, ordering=['-created_at']), name='index'),
+    path('', question_views.question_list, name='index'),
 
     path('question/', question_views.question_create, name='question_create'),
     path('question/<int:question_id>/', question_views.question_detail, name='question_detail'),

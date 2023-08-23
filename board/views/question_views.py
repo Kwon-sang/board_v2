@@ -1,9 +1,21 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
+from django.core.paginator import Paginator
 
 from board.models import Question
 from board.forms import QuestionForm
+from board.utils import set_page_bar_range
+
+
+def question_list(request):
+    question_list = Question.objects.all().order_by('-created_at')
+    page_number = request.GET.get('page', default=1)
+    paginator = Paginator(question_list, 15)
+    page_obj = paginator.page(page_number)
+    page_bar_range = set_page_bar_range(page_object=page_obj, bar_range=5)
+    context = {'question_list': page_obj, 'page_bar_range': page_bar_range}
+    return render(request, 'board/question_list.html', context)
 
 
 def question_detail(request, question_id):
